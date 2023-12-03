@@ -8,7 +8,7 @@ import DashboardLayout from '../layouts/dashboard/DashboardLayout'
 import DashboardList from '../pages/dashboard/list'
 import DashboardCreate from '../pages/dashboard/create'
 import DashboardUpdate from '../pages/dashboard/update'
-import ActivationPage from '../pages/activation'
+import ActivationPage from '../pages/activation/Activation'
 
 const Navigations = () => {
   return (
