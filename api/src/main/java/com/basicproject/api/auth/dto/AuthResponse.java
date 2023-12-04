@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class AuthResponse {
-    User user;
+    LoginResponse user;
     Token token;
 }

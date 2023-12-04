@@ -2,6 +2,7 @@ package com.basicproject.api.auth;
 
 import com.basicproject.api.auth.dto.AuthResponse;
 import com.basicproject.api.auth.dto.Credentials;
+import com.basicproject.api.auth.dto.LoginResponse;
 import com.basicproject.api.auth.exception.AuthenticationException;
 import com.basicproject.api.auth.token.ITokenService;
 import com.basicproject.api.auth.token.Token;
@@ -30,13 +31,13 @@ public class AuthService {
         if(inDb == null){
             throw new AuthenticationException("Kullanıcı Bulunamadı");
         }
-        if(!passwordEncoder.matches(inDb.getPassword(), credentials.getPassword())){
+        if(!passwordEncoder.matches(credentials.getPassword(),inDb.getPassword())){
             throw new AuthenticationException("Kullanıcı Şifresi Eşleşmedi");
         }
         Token token = _tokenService.createToken(credentials);
         AuthResponse authResponse = new AuthResponse();
         authResponse.setToken(token);
-        authResponse.setUser(inDb);
+        authResponse.setUser(new LoginResponse(inDb));
         return authResponse;
     }
 

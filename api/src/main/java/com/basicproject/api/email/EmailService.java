@@ -16,8 +16,8 @@ public class EmailService {
         this.mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.ethereal.email");
         mailSender.setPort(587);
-        mailSender.setUsername("avis.franecki40@ethereal.email");
-        mailSender.setPassword("9vqDQcG7fy9fAq1gTt");
+        mailSender.setUsername("keon.kuvalis@ethereal.email");
+        mailSender.setPassword("kHFDyTx6ZUNN8584JP");
 
         Properties properties = mailSender.getJavaMailProperties();
         properties.put("mail.smtp.starttls.enable",true);

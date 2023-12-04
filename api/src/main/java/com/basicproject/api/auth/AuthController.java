@@ -1,6 +1,7 @@
 package com.basicproject.api.auth;
 
 import com.basicproject.api.auth.dto.Credentials;
+import com.basicproject.api.auth.token.TokenService;
 import com.basicproject.api.errors.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -17,13 +18,24 @@ import java.util.Map;
 public class AuthController {
 
     AuthService _authService;
-    public AuthController(AuthService authService){
+    TokenService _tokenService;
+    public AuthController(AuthService authService,TokenService tokenService){
         _authService = authService;
+        _tokenService = tokenService;
     }
 
     @PostMapping(path = "/login")
     public ResponseEntity<?> login(@Valid @RequestBody Credentials credentials){
         return ResponseEntity.ok().body(_authService.authenticateUser(credentials));
+    }
+
+    @PostMapping(path = "/verifyToken")
+    public ResponseEntity<?> tokenValidation(@RequestHeader(name ="Authorization",required = false ) String header){
+        if(_tokenService.verifyToken(header)==null){
+            return ResponseEntity.ok().body(false);
+        }else{
+            return ResponseEntity.ok().body(true);
+        }
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
