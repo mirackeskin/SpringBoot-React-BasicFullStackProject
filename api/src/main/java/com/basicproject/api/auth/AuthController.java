@@ -5,6 +5,8 @@ import com.basicproject.api.auth.token.TokenService;
 import com.basicproject.api.errors.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,8 @@ public class AuthController {
 
     @PostMapping(path = "/login")
     public ResponseEntity<?> login(@Valid @RequestBody Credentials credentials){
+        //var cookie = ResponseCookie.from("token","xxxxxMYTOKENxxxxx").path("/").httpOnly(true).secure(false).build();
+        //return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(_authService.authenticateUser(credentials));
         return ResponseEntity.ok().body(_authService.authenticateUser(credentials));
     }
 

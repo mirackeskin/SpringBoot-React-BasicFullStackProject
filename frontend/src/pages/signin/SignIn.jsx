@@ -20,19 +20,20 @@ const SignIn = () => {
     }
     axios.post(`http://localhost:8080/api/v1/login`, postData, { headers: { "Content-Type": "application/json" } })
       .then(response => {
-        console.log(response.data);
-
-        dispatch(authActions.login({
-          token: response.data.token,
-          userName: response.data.userName,
-          userId: response.data.userId,
-          email: response.data.email
-        }));
-
-        localStorage.setItem("token",response.data.token.token);
-        localStorage.setItem("userName",response.data.user.userName);
-        localStorage.setItem("userId",response.data.user.userId);
-        localStorage.setItem("email",response.data.user.email);
+        
+        if(response.data.token.token){
+          dispatch(authActions.login({
+            token: response.data.token.token,
+            userName: response.data.user.userName,
+            userId: response.data.user.userId,
+            email: response.data.user.email
+          }));
+  
+          localStorage.setItem("token",response.data.token.token);
+          localStorage.setItem("userName",response.data.user.userName);
+          localStorage.setItem("userId",response.data.user.userId);
+          localStorage.setItem("email",response.data.user.email);
+        }
 
       })
       .catch(err => console.log(err))

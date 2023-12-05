@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate,Link } from 'react-router-dom'
 import styles from './DashboardLayout.module.css'
 import { authActions } from '../../store/auth'
 
@@ -8,10 +8,9 @@ const DashboardLayout = () => {
     const dispatch = useDispatch();
     const userName = useSelector(state => state.auth.userName);
     const Navigate = useNavigate();
-    const logoutHandler = () => {
+    const logoutHandler = async () => {
         dispatch(authActions.logout());
-        localStorage.clear();
-        
+        await localStorage.clear();        
     }
     return (
         <>
@@ -22,6 +21,7 @@ const DashboardLayout = () => {
                         {userName}
                     </button>
                     <ul className="dropdown-menu">
+                        <li><Link to={"/profile"} className="dropdown-item" href="#">Profile</Link></li>
                         <li><button onClick={logoutHandler} className="dropdown-item" href="#">LogOut</button></li>
                     </ul>
                 </div>

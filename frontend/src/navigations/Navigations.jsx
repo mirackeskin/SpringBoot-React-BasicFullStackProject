@@ -5,28 +5,29 @@ import AuthLayout from '../layouts/auth/AuthLayout'
 import SignIn from '../pages/signin/SignIn'
 import SignUp from '../pages/signup/SignUp'
 import DashboardLayout from '../layouts/dashboard/DashboardLayout'
-import DashboardList from '../pages/dashboard/list'
-import DashboardCreate from '../pages/dashboard/create'
-import DashboardUpdate from '../pages/dashboard/update'
+import DashboardList from '../pages/dashboard/list/List'
+import DashboardCreate from '../pages/dashboard/create/Create'
+import DashboardUpdate from '../pages/dashboard/update/Update'
 import ActivationPage from '../pages/activation/Activation'
 import { useDispatch, useSelector } from 'react-redux'
 import NotFound from '../pages/notfound/NotFound'
 import axios from 'axios'
 import LoadingModal from '../components/loading/LoadingModal'
 import { authActions } from '../store/auth'
+import Profile from '../pages/profile/Profile'
 
 const Navigations = () => {
   const dispatch = useDispatch();
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isTryingLogin, setIsTryingLogin] = useState(true);
   const token = useSelector(state => state.auth.token);
 
-  const validateToken = (token) => {
-    setLoading(false);
+  const validateToken =async (token) => {
+    setLoading(true);
     if (token != "" && token != null) {
-      axios.post("http://localhost:8080/api/v1/verifyToken", {}, { headers: { "Authorization": "Basic " + token } })
+      await axios.post("http://localhost:8080/api/v1/verifyToken", {}, { headers: { "Authorization": "Basic " + token } })
         .then(response => {
-          console.log(response.data);
           setIsValid(response.data);
         })
         .catch(err => console.log(err))
@@ -47,7 +48,7 @@ const Navigations = () => {
         userId = localStorage.getItem('userId');
         email = localStorage.getItem('email');
 
-        validateToken(userToken);
+        await validateToken(userToken);
 
       } catch (e) {
         // Restoring token failed
@@ -61,19 +62,25 @@ const Navigations = () => {
           email: email
         }))
       }
+      setIsTryingLogin(false);
     }
     fetchToken();
   }, [token])
 
+  if (isTryingLogin) {
+    return <LoadingModal></LoadingModal>;
+ }
+
   return (
-    loading ? <LoadingModal></LoadingModal> :
-      isValid && token != "" ?
+    
+      (isValid && token) ?
         <Routes>
           <Route path='/' element={<DashboardLayout></DashboardLayout>}>
             <Route path='/' element={<DashboardList></DashboardList>}></Route>
             <Route path='/dashboard/create' element={<DashboardCreate></DashboardCreate>}></Route>
             <Route path='/dashboard/update/:id' element={<DashboardUpdate></DashboardUpdate>}></Route>
-          </Route>
+            <Route path='/profile' element={<Profile></Profile>}></Route>
+          </Route>          
           <Route path='*' element={<NotFound></NotFound>}></Route>
           <Route path='/activation/:token' element={<ActivationPage></ActivationPage>}></Route>
         </Routes>
