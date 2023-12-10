@@ -15,14 +15,14 @@ const DashboardLayout = () => {
     return (
         <>
             <div className={styles.navbarWrapper}>
-                <h3 className={styles.text}>SpringBoot&ReactJs App</h3>
+                <Link className={styles.text} to={"/"}><h3 >SpringBoot&ReactJs App</h3></Link>                
                 <div className="dropdown">
                     <button className="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {userName}
                     </button>
                     <ul className="dropdown-menu">
                         <li><Link to={"/profile"} className="dropdown-item" href="#">Profile</Link></li>
-                        <li><button onClick={logoutHandler} className="dropdown-item" href="#">LogOut</button></li>
+                        <li><button onClick={logoutHandler} className="dropdown-item">LogOut</button></li>
                     </ul>
                 </div>
             </div>

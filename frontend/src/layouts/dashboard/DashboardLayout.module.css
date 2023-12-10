@@ -9,4 +9,5 @@
 }
 .text{
     color: white;
+    text-decoration: none !important;
 }

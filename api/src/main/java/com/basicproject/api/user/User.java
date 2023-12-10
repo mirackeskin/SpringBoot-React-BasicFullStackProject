@@ -25,6 +25,7 @@ public class User {
 
     String activationToken ;
 
+    @Column(columnDefinition = "text")
     String image;
 
     boolean isAdmin = false;

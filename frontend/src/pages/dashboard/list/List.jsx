@@ -69,7 +69,7 @@ const List = () => {
                   <td scope="col">
                     {
                       item.image == null ? <img className={styles.image} src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png" alt="" /> 
-                      : <img className={styles.image} src={item.image} alt="" />
+                      : <img className={styles.image} src={`http://localhost:8080/images/${item.userName}/${item.image}`} alt="" />
                     }                    
                   </td>
                   <td>{item.userName}</td>

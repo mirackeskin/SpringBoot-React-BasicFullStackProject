@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,13 +59,11 @@ public class UserController {
         return ResponseEntity.ok().body(_userService.getUser(id));
     }
 
-    @PostMapping(path = "/user/fileUpload")
-    ResponseEntity<?> fileUpload(@RequestParam MultipartFile file) throws IOException {
+    @PostMapping(path = "/user/fileUpload/{id}")
+    ResponseEntity<?> fileUpload(@PathVariable int id,@RequestParam MultipartFile file) throws IOException {
         byte [] content = file.getInputStream().readAllBytes();
-        ImageDto image = new ImageDto();
-        image.setContent(content);
-        image.setName(file.getName());
-        return ResponseEntity.ok().body(image);
+        String byteToString = Base64.getEncoder().encodeToString(content);
+        return ResponseEntity.ok().body(_userService.profileImageUpload(id,byteToString));
     }
 
     @DeleteMapping(path = "/users/{id}")
